@@ -6,7 +6,7 @@
   <title>Gunadya Productions – rooted storytelling</title>
   <!-- Font Awesome 6 (free) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Font: Cinzel + Work Sans for elegant, cinematic feel -->
+  <!-- Google Font: Cinzel + Work Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -32,7 +32,7 @@
       flex: 1;
     }
 
-    /* cinematic, dark, with gold/amber accents */
+    /* cinematic, dark, gold/amber accents */
     header {
       display: flex;
       flex-wrap: wrap;
@@ -84,7 +84,6 @@
       border-bottom-color: #d4af37;
     }
 
-    /* mobile nav */
     @media (max-width: 750px) {
       header {
         flex-direction: column;
@@ -93,7 +92,6 @@
       }
     }
 
-    /* page specific containers */
     .page-card {
       background: rgba(18, 22, 28, 0.8);
       backdrop-filter: blur(4px);
@@ -132,7 +130,7 @@
       font-weight: 500;
     }
 
-    /* contact info styling */
+    /* contact info with full address */
     .contact-grid {
       display: flex;
       flex-wrap: wrap;
@@ -144,7 +142,7 @@
       background: #10161e;
       padding: 30px;
       border-radius: 20px;
-      flex: 1 1 260px;
+      flex: 1 1 300px;
       border: 1px solid #454e58;
     }
 
@@ -153,13 +151,28 @@
       width: 30px;
       font-size: 1.3rem;
       margin-right: 12px;
+      flex-shrink: 0;
+      margin-top: 4px;
     }
 
     .contact-details p {
       display: flex;
-      align-items: center;
-      font-size: 1.15rem;
-      margin-bottom: 22px;
+      align-items: flex-start;
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+    }
+
+    /* multi-line address styling */
+    .address-block {
+      display: flex;
+      flex-direction: column;
+    }
+    .address-line {
+      display: flex;
+      align-items: baseline;
+    }
+    .address-text {
+      line-height: 1.5;
     }
 
     .copyright {
@@ -190,7 +203,6 @@
       text-decoration: underline;
     }
 
-    /* privacy, terms — text heavy */
     .policy-section {
       background: #0e1217;
       padding: 30px;
@@ -222,11 +234,6 @@
       font-weight: 500;
     }
 
-    .btn-top:hover {
-      text-decoration: underline;
-    }
-
-    /* home specific */
     .hero-quote {
       font-size: 1.8rem;
       font-family: 'Cinzel', serif;
@@ -252,7 +259,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <!-- HEADER with consistent logo & navigation -->
+    <!-- HEADER -->
     <header>
       <div class="logo-area">
         <h1>Gunadya Productions</h1>
@@ -269,10 +276,10 @@
       </nav>
     </header>
 
-    <!-- ========== DYNAMIC CONTENT PANEL ========== -->
+    <!-- DYNAMIC CONTENT -->
     <div id="page-content"></div>
 
-    <!-- FOOTER with copyright and always-visible links -->
+    <!-- FOOTER with copyright & links -->
     <footer class="copyright">
       <div>© 2025 Gunadya Productions (OPC) Pvt Ltd. All rights reserved.</div>
       <div class="footer-links">
@@ -283,45 +290,30 @@
     </footer>
   </div>
 
-  <!-- ========== JAVASCRIPT PAGE RENDERING ========== 
-       All pages: Home, About, Contact, Privacy, Terms – fully detailed -->
   <script>
     const contentDiv = document.getElementById('page-content');
 
-    // ---------- COMPANY INFO ----------
+    // ---------- COMPANY INFO with FULL ADDRESS ----------
     const company = {
       name: "Gunadya Productions (OPC) Pvt Ltd",
       nature: "Movie Production",
       mobile: "9739033030",
-      email: "nishanth@gunadyaproductions.com"
-      Address: "191, ground floor 9th main, BCC layout Chandra Layout Stage 2 Bengaluru Urban karnataka"
+      email: "nishanth@gunadyaproductions.com",
+      // exact address as requested
+      address: "191, ground floor 9th main, BCC layout Chandra Layout Stage 2 Bengaluru Urban Karnataka"
     };
 
-    // ---------- HELPER: render active page, update URL hash ----------
     function navigateTo(page) {
       let html = '';
       switch(page) {
-        case 'home':
-          html = renderHome();
-          break;
-        case 'about':
-          html = renderAbout();
-          break;
-        case 'contact':
-          html = renderContact();
-          break;
-        case 'privacy':
-          html = renderPrivacy();
-          break;
-        case 'terms':
-          html = renderTerms();
-          break;
-        default:
-          html = renderHome(); // fallback
-          page = 'home';
+        case 'home': html = renderHome(); break;
+        case 'about': html = renderAbout(); break;
+        case 'contact': html = renderContact(); break;
+        case 'privacy': html = renderPrivacy(); break;
+        case 'terms': html = renderTerms(); break;
+        default: html = renderHome(); page = 'home';
       }
       contentDiv.innerHTML = html;
-      // set hash without jumping (if ID exists, but we prevent default in handlers)
       window.location.hash = page;
     }
 
@@ -360,6 +352,9 @@
     }
 
     function renderContact() {
+      // format address nicely – split into parts for readability
+      const addr = company.address;
+      // we display it cleanly on multiple visual lines (but keep as single block)
       return `
         <div class="page-card">
           <h2>Contact</h2>
@@ -367,7 +362,17 @@
             <div class="contact-details">
               <p><i class="fas fa-phone-alt"></i> ${company.mobile}</p>
               <p><i class="fas fa-envelope"></i> ${company.email}</p>
-              <p style="align-items: flex-start;"><i class="fas fa-map-marker-alt"></i> #23, Cinema Road,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bengaluru – 560001, India</p>
+              
+              <!-- ADDRESS as requested: 191, ground floor 9th main, BCC layout Chandra Layout Stage 2 Bengaluru Urban Karnataka -->
+              <p style="display: flex; align-items: flex-start;">
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="address-text">
+                  191, ground floor 9th main,<br>
+                  BCC layout, Chandra Layout Stage 2,<br>
+                  Bengaluru Urban, Karnataka
+                </span>
+              </p>
+              
               <p><i class="fas fa-building"></i> Gunadya Productions (OPC) Pvt Ltd</p>
             </div>
             <div style="flex:1; min-width: 220px;">
@@ -375,6 +380,7 @@
               <p><strong>Careers / internships:</strong> careers@gunadyaproductions.com</p>
               <hr style="margin: 25px 0 15px;">
               <p><i class="fas fa-clock" style="color:#d4af37;"></i> Response within 5–7 working days.</p>
+              <p style="margin-top: 20px;"><i class="fas fa-location-dot" style="color:#d4af37;"></i> <strong>Studio / office:</strong> Chandra Layout, Bengaluru</p>
             </div>
           </div>
         </div>
@@ -418,7 +424,7 @@
           <h3>Third‑party links</h3>
           <p>Our site may link to external platforms (Vimeo, YouTube, etc.). We are not responsible for their content or practices.</p>
           <h3>Submission policy</h3>
-          <p>Any script, idea, or material sent to Gunadya becomes the property of Gunadya Productions for evaluation purposes. We {do not} accept confidential submissions; please send only what you are willing to share.</p>
+          <p>Any script, idea, or material sent to Gunadya becomes the property of Gunadya Productions for evaluation purposes. We do not accept confidential submissions; please send only what you are willing to share.</p>
           <h3>Limitation of liability</h3>
           <p>We strive for accuracy but do not guarantee that the website is error‑free. Gunadya shall not be liable for any damages arising from use of this site.</p>
           <h3>Governing law</h3>
@@ -428,15 +434,13 @@
       `;
     }
 
-    // ---------- EVENT LISTENERS: smooth navigation, hash change ----------
+    // ---------- NAVIGATION LISTENERS ----------
     function attachNavListeners() {
-      // nav links
       const navHome = document.getElementById('nav-home');
       const navAbout = document.getElementById('nav-about');
       const navContact = document.getElementById('nav-contact');
       const navPrivacy = document.getElementById('nav-privacy');
       const navTerms = document.getElementById('nav-terms');
-      // footer links
       const footerPrivacy = document.getElementById('footer-privacy');
       const footerTerms = document.getElementById('footer-terms');
       const footerContact = document.getElementById('footer-contact');
@@ -452,45 +456,29 @@
       navPrivacy.addEventListener('click', (e) => handleNavClick(e, 'privacy'));
       navTerms.addEventListener('click', (e) => handleNavClick(e, 'terms'));
 
-      // footer nav
       footerPrivacy.addEventListener('click', (e) => handleNavClick(e, 'privacy'));
       footerTerms.addEventListener('click', (e) => handleNavClick(e, 'terms'));
       footerContact.addEventListener('click', (e) => handleNavClick(e, 'contact'));
     }
 
-    // initial load + hash change routing
     function loadInitialPage() {
-      let hash = window.location.hash.substring(1); // remove '#'
-      const validPages = ['home', 'about', 'contact', 'privacy', 'terms'];
-      if (!hash || !validPages.includes(hash)) {
-        hash = 'home';
-      }
+      let hash = window.location.hash.substring(1);
+      const valid = ['home','about','contact','privacy','terms'];
+      if (!valid.includes(hash)) hash = 'home';
       navigateTo(hash);
     }
 
     window.addEventListener('hashchange', function() {
       let hash = window.location.hash.substring(1);
       const valid = ['home','about','contact','privacy','terms'];
-      if (valid.includes(hash)) {
-        navigateTo(hash);
-      } else {
-        navigateTo('home');
-      }
+      if (valid.includes(hash)) navigateTo(hash);
+      else navigateTo('home');
     });
 
-    // run after DOM ready
     window.addEventListener('DOMContentLoaded', () => {
       loadInitialPage();
       attachNavListeners();
     });
   </script>
-
-  <!-- subtle note: all required pages: privacy, terms, contact, copyright, home, about.
-       Company name & details displayed dynamically + static fallback inside rendered blocks -->
-  <!-- to meet "copyright" explicit: footer displays copyright company name and all rights reserved.
-       privacy policy and terms pages as separate fully written sections.
-       contact page has mobile, email.  -->
-  <!-- Also direct inclusion of mobile and email in contact, plus company name everywhere. -->
-  <!-- "Believing in rooted storytelling" appears in about / tagline / home. -->
 </body>
 </html>
